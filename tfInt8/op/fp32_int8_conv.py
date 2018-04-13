@@ -41,11 +41,10 @@ with tf.Session() as sess:
     fp32_start = time.time()
     fp32_conv = sess.run(conv,   feed_dict={inputs: dummy_data})
     fp32_end = time.time()
-'''
 
+'''
 #----------------------------- fp32 conv forward---------------------
-init = tf.global_variables_initializer()
-saver = tf.train.Saver()
+#saver = tf.train.Saver()
 
 conv = tf.contrib.layers.conv2d(inputs,
                         num_outputs = oc,
@@ -53,16 +52,16 @@ conv = tf.contrib.layers.conv2d(inputs,
                         stride = stride_,
                         padding = pad_)
 
+init = tf.global_variables_initializer()
 with tf.Session() as sess:
      sess.run(init)
      #fp32_data = sess.run(inputs, feed_dict = {inputs: dummy_data})
      start = time.time()
      fp32_conv = sess.run(conv, feed_dict = {inputs: dummy_data})
      end = time.time()
-     saver.save(sess, "checkpoint/conv")
+     #saver.save(sess, "checkpoint/conv")
 
      print("elapsed time: %.8f sec" % (end -start))
-
 
 #----------------------------- Int8 conv forward---------------------
 graph = tf.get_default_graph()
